@@ -23,6 +23,8 @@ public:
 	void Push(const T& elem);
 	T Top() const;
 
+	void Clear(void) { CurrentIndex = -1; }
+
 	int Get_MaxSize() const noexcept { return MaxSize; }
 	int Get_MAXMAXSIZE() const noexcept { return MAXMAXSIZE; }
 			

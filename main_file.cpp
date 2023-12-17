@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "TStack.h"
+#include "TCalculator.h"
 
 int main()
 {

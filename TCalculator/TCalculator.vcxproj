@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{d245a3ff-6382-4ef5-b563-462f04c25613}</ProjectGuid>
-    <RootNamespace>Stack</RootNamespace>
+    <ProjectGuid>{826b724e-0a32-412f-956b-e2348efaff1b}</ProjectGuid>
+    <RootNamespace>TCalculator</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,11 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main_file.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="TCalculator.h" />
-    <ClInclude Include="TStack.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
