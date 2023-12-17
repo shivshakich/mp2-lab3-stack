@@ -123,17 +123,3 @@ std::ostream& operator>>(std::ostream& os, const TStack<T>& ts) {
 
 	return os;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
