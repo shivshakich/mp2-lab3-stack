@@ -49,12 +49,12 @@ TStack<T>::TStack(int ms) {
 
 template <class T>				// конструктор копирования
 TStack<T>::TStack(const TStack& ts) {		
-	pMem = new T[ts.ms];
+	pMem = new T[ts.MaxSize];
 
 	if (pMem == nullptr)
 		throw exception("TStack(const TStack&), cant_allocate_memory");
 
-	MaxSize = ts.ms;
+	MaxSize = ts.MaxSize;
 	CurrentIndex = ts.CurrentIndex;
 
 	for (int i = 0; i <= CurrentIndex; ++i)
