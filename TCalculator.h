@@ -4,49 +4,43 @@
 
 using std::string;
 
-template <class T>
-class TCalculator {
-	string infix, postfix;
-	TStack<char> operation(TStack::Get_MAXMAXSIZE());
-	TStack<double> number(TStack::Get_MAXMAXSIZE());
-
-	int Priority(char op) const {
-		int res;
-		switch (op) {
-		case '(': res = 0; break;
-		case ')': res = 0; break;
-		case '-': res = 1; break;
-		case '+': res = 1; break;
-		case '*': res = 2; break;
-		case '/': res = 2; break;
-		case '^': res = 3; break;
-		}
-
-		return res;
+static int Priority(char op) {
+	int res;
+	switch (op) {
+	case '(': res = 0; break;
+	case ')': res = 0; break;
+	case '-': res = 1; break;
+	case '+': res = 1; break;
+	case '*': res = 2; break;
+	case '/': res = 2; break;
+	case '^': res = 3; break;
+	default: res = -1; break;
 	}
 
-	void ToPostfix(void);
-public:
-	TCalculator(const string& in);
+	return res;
+}
 
-	double Calc(void);
+template <class T>
+class TCalculator {
+	string infix, postfix;			// инфиксная и постфиксная формы записи алгебраического выражения
+	TStack<char> operation;			// стек, хранящий операции
+	TStack<double> number;			// стек, хранящий операнды
+
+	void ClearStacks() { operation.Clear(); number.Clear(); }		// очистить стеки 
+	void ToPostfix(void);											// найти postfix
+public:
+	// конструктор
+	TCalculator(const string& in) : infix("(" + in + ")"), postfix(), operation(in.size() + 2), number(in.size() + 2) {}
+
+	int IsCorrect() const;												// проверка корректности this->infix
+
+	string GetInfix() const { return infix[1:infix.size() - 2]; }		// выдать значение infix
+	string GetPostfix() const { return postfix; }						// выдать значение postfix
+
+	double Calc(void);													// вычислить postfix
 };
 
 template <class T>
-TCalculator<T>::TCalculator(const string& in) {
-	infix = '(' + in + ')';
+int TCalculator<T>::IsCorrect() const {
 
-	ToPostfix();
 }
-
-template <class T>
-void TCalculator<T>::ToPostfix(void) {
-	operation.Clear();
-}
-
-
-
-
-
-
-
