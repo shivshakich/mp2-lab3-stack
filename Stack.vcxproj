@@ -127,9 +127,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main_file.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="TCalculator.h" />
     <ClInclude Include="TStack.h" />
   </ItemGroup>
