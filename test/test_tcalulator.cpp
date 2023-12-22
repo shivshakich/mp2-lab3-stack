@@ -1,8 +1,7 @@
+#include "pch.h"
 #include "../TCalculator.h"
 
-#include <gtest/gtest.h>
-
-#include "pch.h"
+/*
 
 TEST(TSet, can_get_max_power_set)
 {
@@ -297,3 +296,4 @@ TEST(TSet, check_negation_operator)
 
   EXPECT_EQ(expSet, set1);
 }
+*/

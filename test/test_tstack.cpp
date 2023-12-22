@@ -1,14 +1,11 @@
+#include "pch.h"
 #include "../TStack.h"
 
-#include <gtest/gtest.h>
-
-#include "pch.h"
-
-TEST(TBitField, can_create_stack_with_positive_length)
+TEST(TStack, can_create_stack_with_positive_size)
 {
   ASSERT_NO_THROW(TStack<int> st(3));
 }
-
+/*
 TEST(TBitField, can_get_length)
 {
   TBitField bf(3);
@@ -311,3 +308,4 @@ TEST(TBitField, bitfields_with_different_bits_are_not_equal)
 
   EXPECT_NE(bf1, bf2);
 }
+*/

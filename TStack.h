@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 static const int MAXMAXSIZE = 100000;
 
 using std::exception;
