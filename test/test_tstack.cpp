@@ -160,4 +160,3 @@ TEST(TStack, get_correct_max_size) {
 
 	ASSERT_EQ(st.Get_MaxSize(), 10);
 }
-

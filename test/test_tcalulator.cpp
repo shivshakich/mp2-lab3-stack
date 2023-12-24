@@ -1,299 +1,86 @@
 #include "pch.h"
 #include "../TCalculator.h"
 
-/*
+using std::string;
 
-TEST(TSet, can_get_max_power_set)
+TEST(TCalculator, can_create_calculator_with_possitive_size_of_infix)
 {
-  const int size = 5;
-  TSet set(size);
-
-  EXPECT_EQ(size, set.GetMaxPower());
+    string a = "1+2";
+    ASSERT_NO_THROW(TCalculator<int>a);
 }
 
-TEST(TSet, can_insert_non_existing_element)
+TEST(TCalculator, can_get_infix_form_of_calculator)
 {
-  const int size = 5, k = 3;
-  TSet set(size);
-  set.InsElem(k);
+    std::string a = "2+(3*5)";
+    std::string b;
+    TCalculator calc(a);
+    ASSERT_NO_THROW(b = calc.get_infix());
+    EXPECT_EQ(a, b);
+}
+TEST(TCalculator, can_set_infix_form_of_calculator)
+{
+    std::string a = "2+(3*5)";
+    std::string b;
+    TCalculator calc(a);
+    ASSERT_NO_THROW(calc.set_infix(b));
+    EXPECT_EQ(calc.get_infix(), b);
+}
+TEST(TCalculator, can_get_correct_postfix_form_of_calculator_if_the_number_of_brackets_is_correct)
+{
+    std::string a = "2+(3*5)";
+    std::string b = "235*+";
+    std::string c;
+    TCalculator calc(a);
+    ASSERT_NO_THROW(c = calc.get_postfix());
+    EXPECT_EQ(c, b);
+}
+TEST(TCalculator, cant_get_correct_postfix_form_of_calculator_if_the_number_of_brackets_is_incorrect)
+{
+    std::string a = "2+((3*5)";
+    std::string b = "235*+";
+    std::string c;
+    TCalculator calc(a);
+    c = calc.get_postfix();
+    EXPECT_NE(c, b);
+}
+TEST(TCalculator, check_expression_return_true_when_the_number_of_brackets_is_correct)
+{
+    std::string a = "2+(3*5)";
 
-  EXPECT_NE(set.IsMember(k), 0);
+
+    TCalculator calc(a);
+    bool check;
+    ASSERT_NO_THROW(check = calc.CheckExpression());
+    EXPECT_EQ(1, check);
+}
+TEST(TCalculator, check_expression_return_false_when_the_number_of_brackets_is_incorrect)
+{
+    std::string a = "2+((3*5)";
+
+
+    TCalculator calc(a);
+    bool check;
+    ASSERT_NO_THROW(check = calc.CheckExpression());
+    EXPECT_EQ(0, check);
+}
+TEST(TCalculator, can_calculat_if_the_number_of_brackets_is_correct)
+{
+    std::string a = "2+(3*5)";
+
+
+    TCalculator calc(a);
+    double check;
+    ASSERT_NO_THROW(check = calc.CalcPostfix());
+    EXPECT_EQ(17, check);
 }
 
-TEST(TSet, can_insert_existing_element)
+TEST(TCalculator, cant_calculat_if_the_number_of_brackets_is_incorrect)
 {
-  const int size = 5;
-  const int k = 3;
-  TSet set(size);
-  set.InsElem(k);
-  set.InsElem(k);
+    std::string a = "2+((3*5)";
 
-  EXPECT_NE(set.IsMember(k), 0);
+
+    TCalculator calc(a);
+    double check;
+    ASSERT_ANY_THROW(check = calc.CalcPostfix());
+    EXPECT_NE(17, check);
 }
-
-TEST(TSet, can_delete_non_existing_element)
-{
-  const int size = 5, k = 3;
-  TSet set(size);
-  set.DelElem(k);
-
-  EXPECT_EQ(set.IsMember(k), 0);
-}
-
-TEST(TSet, can_delete_existing_element)
-{
-  const int size = 5, k = 3;
-  TSet set(size);
-
-  set.InsElem(k);
-  EXPECT_GT(set.IsMember(k), 0);
-
-  set.DelElem(k);
-  EXPECT_EQ(set.IsMember(k), 0);
-}
-
-TEST(TSet, compare_two_sets_of_non_equal_sizes)
-{
-  const int size1 = 4, size2 = 6;
-  TSet set1(size1), set2(size2);
-
-  EXPECT_EQ(1, set1 != set2);
-}
-
-TEST(TSet, compare_two_equal_sets)
-{
-  const int size = 4;
-  TSet set1(size), set2(size);
-  // set1 = set2 = {1, 3}
-  set1.InsElem(1);
-  set1.InsElem(3);
-  set2.InsElem(1);
-  set2.InsElem(3);
-
-  EXPECT_EQ(set1, set2);
-}
-
-TEST(TSet, compare_two_non_equal_sets)
-{
-  const int size = 4;
-  TSet set1(size), set2(size);
-  // set1 = {1, 3}
-  set1.InsElem(1);
-  set1.InsElem(3);
-  // set2 = {1, 2}
-  set2.InsElem(1);
-  set2.InsElem(2);
-
-  EXPECT_EQ(1, set1 != set2);
-}
-
-TEST(TSet, can_assign_set_of_equal_size)
-{
-  const int size = 4;
-  TSet set1(size), set2(size);
-  // set1 = {1, 3}
-  set1.InsElem(1);
-  set1.InsElem(3);
-  set2 = set1;
-
-  EXPECT_EQ(set1, set2);
-}
-
-TEST(TSet, can_assign_set_of_greater_size)
-{
-  const int size1 = 4, size2 = 6;
-  TSet set1(size1), set2(size2);
-  // set1 = {1, 3}
-  set1.InsElem(1);
-  set1.InsElem(3);
-  set2 = set1;
-
-  EXPECT_EQ(set1, set2);
-}
-
-TEST(TSet, can_assign_set_of_less_size)
-{
-  const int size1 = 6, size2 = 4;
-  TSet set1(size1), set2(size2);
-  // set1 = {1, 3, 5}
-  set1.InsElem(1);
-  set1.InsElem(3);
-  set1.InsElem(5);
-  set2 = set1;
-
-  EXPECT_EQ(set1, set2);
-}
-
-TEST(TSet, can_insert_non_existing_element_using_plus_operator)
-{
-  const int size = 4;
-  const int k = 3;
-  TSet set(size), updatedSet(size);
-  set.InsElem(0);
-  set.InsElem(2);
-  updatedSet = set + k;
-
-  EXPECT_NE(0, updatedSet.IsMember(k));
-}
-
-TEST(TSet, throws_when_insert_non_existing_element_out_of_range_using_plus_operator)
-{
-  const int size = 4;
-  const int k = 6;
-  TSet set(size), updatedSet(size);
-  set.InsElem(0);
-  set.InsElem(2);
-
-  ASSERT_ANY_THROW(updatedSet = set + k);
-}
-
-TEST(TSet, can_insert_existing_element_using_plus_operator)
-{
-  const int size = 4;
-  const int k = 3;
-  TSet set(size), updatedSet(size);
-  set.InsElem(0);
-  set.InsElem(k);
-  updatedSet = set + k;
-
-  EXPECT_NE(0, set.IsMember(k));
-}
-
-TEST(TSet, check_size_of_the_combination_of_two_sets_of_equal_size)
-{
-  const int size = 5;
-  TSet set1(size), set2(size), set3(size);
-  // set1 = {1, 2, 4}
-  set1.InsElem(1);
-  set1.InsElem(2);
-  set1.InsElem(4);
-  // set2 = {0, 1, 2}
-  set2.InsElem(0);
-  set2.InsElem(1);
-  set2.InsElem(2);
-  set3 = set1 + set2;
-
-  EXPECT_EQ(size, set3.GetMaxPower());
-}
-
-TEST(TSet, can_combine_two_sets_of_equal_size)
-{
-  const int size = 5;
-  TSet set1(size), set2(size), set3(size), expSet(size);
-  // set1 = {1, 2, 4}
-  set1.InsElem(1);
-  set1.InsElem(2);
-  set1.InsElem(4);
-  // set2 = {0, 1, 2}
-  set2.InsElem(0);
-  set2.InsElem(1);
-  set2.InsElem(2);
-  set3 = set1 + set2;
-  // expSet = {0, 1, 2, 4}
-  expSet.InsElem(0);
-  expSet.InsElem(1);
-  expSet.InsElem(2);
-  expSet.InsElem(4);
-
-  EXPECT_EQ(expSet, set3);
-}
-
-TEST(TSet, check_size_changes_of_the_combination_of_two_sets_of_non_equal_size)
-{
-  const int size1 = 5, size2 = 7;
-  TSet set1(size1), set2(size2), set3(size1);
-  // set1 = {1, 2, 4}
-  set1.InsElem(1);
-  set1.InsElem(2);
-  set1.InsElem(4);
-  // set2 = {0, 1, 2}
-  set2.InsElem(0);
-  set2.InsElem(1);
-  set2.InsElem(2);
-  set3 = set1 + set2;
-
-  EXPECT_EQ(size2, set3.GetMaxPower());
-}
-
-TEST(TSet, can_combine_two_sets_of_non_equal_size)
-{
-  const int size1 = 5, size2 = 7;
-  TSet set1(size1), set2(size2), set3(size1), expSet(size2);
-  // set1 = {1, 2, 4}
-  set1.InsElem(1);
-  set1.InsElem(2);
-  set1.InsElem(4);
-  // set2 = {0, 1, 2, 6}
-  set2.InsElem(0);
-  set2.InsElem(1);
-  set2.InsElem(2);
-  set2.InsElem(6);
-  set3 = set1 + set2;
-  // expSet = {0, 1, 2, 4, 6}
-  expSet.InsElem(0);
-  expSet.InsElem(1);
-  expSet.InsElem(2);
-  expSet.InsElem(4);
-  expSet.InsElem(6);
-
-  EXPECT_EQ(expSet, set3);
-}
-
-TEST(TSet, can_intersect_two_sets_of_equal_size)
-{
-  const int size = 5;
-  TSet set1(size), set2(size), set3(size), expSet(size);
-  // set1 = {1, 2, 4}
-  set1.InsElem(1);
-  set1.InsElem(2);
-  set1.InsElem(4);
-  // set2 = {0, 1, 2}
-  set2.InsElem(0);
-  set2.InsElem(1);
-  set2.InsElem(2);
-  set3 = set1 * set2;
-  // expSet = {1, 2}
-  expSet.InsElem(1);
-  expSet.InsElem(2);
-
-  EXPECT_EQ(expSet, set3);
-}
-
-TEST(TSet, can_intersect_two_sets_of_non_equal_size)
-{
-  const int size1 = 5, size2 = 7;
-  TSet set1(size1), set2(size2), set3(size1), expSet(size2);
-  // set1 = {1, 2, 4}
-  set1.InsElem(1);
-  set1.InsElem(2);
-  set1.InsElem(4);
-  // set2 = {0, 1, 2, 4, 6}
-  set2.InsElem(0);
-  set2.InsElem(1);
-  set2.InsElem(2);
-  set2.InsElem(4);
-  set2.InsElem(6);
-  set3 = set1 * set2;
-  // expSet = {1, 2, 4}
-  expSet.InsElem(1);
-  expSet.InsElem(2);
-  expSet.InsElem(4);
-
-  EXPECT_EQ(expSet, set3);
-}
-
-TEST(TSet, check_negation_operator)
-{
-  const int size = 4;
-  TSet set(size), set1(size), expSet(size);
-  // set1 = {1, 3}
-  set.InsElem(1);
-  set.InsElem(3);
-  set1 = ~set;
-  // expSet = {0, 2}
-  expSet.InsElem(0);
-  expSet.InsElem(2);
-
-  EXPECT_EQ(expSet, set1);
-}
-*/

@@ -2,6 +2,8 @@
 
 #include "TStack.h"
 
+#include <string>
+
 // считаем, что infix не должен содеражать пробелов
 
 using std::string;
@@ -22,7 +24,6 @@ static int Priority(char op) {
 	return res;
 }
 
-template <class T>
 class TCalculator {
 	string infix, postfix;			// инфиксная и постфиксная формы записи алгебраического выражения
 	TStack<char> operation;			// стек, хранящий операции
@@ -42,42 +43,44 @@ public:
 	double Calc(void);													// вычислить postfix
 };
 
-template <class T>
-void TCalculator<T>::ToPostfix(void) {
+void TCalculator::ToPostfix(void) {
 	ClearStacks();
 	postfix = "";
 
-	string str = '(' + infix + ')';
-	int lengthStr = str.length();
+	//str, lengthStr;
+	string str = "(" + infix + ")";
+	int lengthStr = 2 + infix.length();
 
 	for (int i = 0; i < lengthStr; ++i) {
 		int prior = Priority(str[i]);
 
-		if (str[i] == '(')								// когда '('
+		if (str[i] == '(')											// когда '('
 			operation.Push('(');
-		else if (str[i] == ')') {						// когда ')'
+
+		else if (str[i] == ')') {									// когда ')'
 			char c;
 			while ((c = operation.Pop()) != '(')		
 				postfix += c;
 		}
-		else if (prior > 0) {							// когда операция 
+
+		else if (prior > 0) {										// когда операция 
 			char c;
 			while (prior <= Priority(c = operation.Top())) {
 				postfix += c;
 				operation.Pop();
 			}
 		}
-		else {											// когда операнд
-			double n = std::strtod(str.substr(i));
-			string syr = string(n);
+
+		else {														// когда операнд
+			double n = std::stod(str.substr(i));
+			string syr = std::to_string(n);
 			i += syr.length() - 1;
-			postfix += string(n);
+			postfix += syr;
 		}
 	}
 }
 
-template <class T> 
-double TCalculator<T>::Calc(void) {
+double TCalculator::Calc(void) {
 	ClearStacks();
 	ToPostfix();
 
@@ -102,14 +105,12 @@ double TCalculator<T>::Calc(void) {
 			number.Push(x1);
 		}
 		else {						// когда операнд
-			double n = std::strtod(postfix.substr(i));
-			string syr = string(n);
+			double n = std::stod(postfix.substr(i));
+			string syr = std::to_string(n);
 			i += syr.length() - 1;
 			number.Push(n);
 		}
 	}
 
-	return number.Push();
+	return number.Pop();
 }
-
-
