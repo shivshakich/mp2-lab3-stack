@@ -24,6 +24,39 @@ static int Priority(char op) {
 	return res;
 }
 
+bool Check(const string& str) {
+	int num = 0, op = 0;
+	int lengthStr = str.size();
+
+	int nBracket = 0;		// количество скобок
+
+	for (int i = 0; i < lengthStr; ++i)
+	{
+		int prior = Priority(str[i]);
+
+		if (str[i] == '(')								// когда (
+			++nBracket;
+		else if (str[i] == ')')							// когда )
+		{
+			if (nBracket < 1)
+				throw "Check, str == ')'";
+
+			--nBracket;
+		}
+		else if (prior > 0)								// когда операция 
+			++op;
+		else
+			++num;
+	}
+
+	if (nBracket != 0)
+		throw "Check, nBracket != 0";
+	else if (num != (op + 1))
+		throw "Check, num != (op + 1)";
+
+	return true;
+}
+
 class TCalculator {
 	string infix, postfix;			// инфиксная и постфиксная формы записи алгебраического выражения
 	TStack<char> operation;			// стек, хранящий операции
@@ -33,7 +66,7 @@ class TCalculator {
 	void ToPostfix(void);											// найти postfix
 public:
 	// конструктор
-	TCalculator(const string& in) : infix(in), postfix(), operation(in.size()), number(in.size()) {}
+	TCalculator(const string& in);
 
 	//int IsCorrect() const;												// проверка корректности this->infix
 
@@ -42,6 +75,14 @@ public:
 
 	double Calc(void);													// вычислить postfix
 };
+
+TCalculator::TCalculator(const string& in) : operation(in.size()), number(in.size()) {
+	Check(in);
+
+	infix = in;
+	postfix = "";
+	ToPostfix();
+}
 
 void TCalculator::ToPostfix(void) {
 	ClearStacks();
@@ -65,17 +106,18 @@ void TCalculator::ToPostfix(void) {
 
 		else if (prior > 0) {										// когда операция 
 			char c;
-			while (prior <= Priority(c = operation.Top())) {
+			while (prior <= Priority(c = operation.Pop())) {
 				postfix += c;
-				operation.Pop();
 			}
 		}
 
 		else {														// когда операнд
-			double n = std::stod(str.substr(i));
-			string syr = std::to_string(n);
-			i += syr.length() - 1;
-			postfix += syr;
+			size_t n;	// кол-во символов числа
+			std::stod(str.substr(i), &n);
+
+			string sub = str.substr(i, n);
+			postfix += sub;
+			i += n - 1;
 		}
 	}
 }
