@@ -43,6 +43,8 @@ bool Check(const string& str) {
 		}
 		else if (prior > 0)								// когда операция 
 			++op;
+		else if (str[i] == ' ')
+			continue;
 		else
 			++num;
 	}
@@ -93,7 +95,7 @@ void TCalculator::ToPostfix(void) {
 
 	//str, lengthStr;
 	string str = "(" + infix + ")";
-	int lengthStr = 2 + infix.length();
+	int lengthStr = str.length();
 
 	for (int i = 0; i < lengthStr; ++i) {
 		int prior = Priority(str[i]);
@@ -103,16 +105,20 @@ void TCalculator::ToPostfix(void) {
 
 		else if (str[i] == ')') {									// когда ')'
 			char c;
-			while ((c = operation.Pop()) != '(')		
+			while ((c = operation.Pop()) != '(')
 				postfix += c;
 		}
 
 		else if (prior > 0) {										// когда операция 
-			char c;
-			while (prior <= Priority(c = operation.Pop())) {
-				postfix += c;
+			while (prior <= Priority(operation.Top())) {
+				postfix += operation.Top();
+				operation.Pop();
 			}
+			operation.Push(str[i]);
 		}
+
+		else if (str[i] == ' ')
+			continue;
 
 		else {														// когда операнд
 			size_t n;	// кол-во символов числа
@@ -123,13 +129,13 @@ void TCalculator::ToPostfix(void) {
 			i += n - 1;
 		}
 	}
-
-	bool a = true;
 }
 
 double TCalculator::Calc(void) {
 	ClearStacks();
 	ToPostfix();
+
+	//postfix;
 
 	int lengthPostfix = postfix.length();
 
@@ -152,9 +158,10 @@ double TCalculator::Calc(void) {
 			number.Push(x1);
 		}
 		else {						// когда операнд
-			double n = std::stod(postfix.substr(i));
-			string syr = std::to_string(n);
-			i += syr.length() - 1;
+			double n = double(c - '0');
+			//double n = std::stod(postfix.substr(i));
+			//string syr = std::to_string(n);
+			//i += syr.length() - 1;
 			number.Push(n);
 		}
 	}
