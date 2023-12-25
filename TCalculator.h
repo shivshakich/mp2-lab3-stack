@@ -4,8 +4,6 @@
 
 #include <string>
 
-// считаем, что infix не должен содеражать пробелов
-
 using std::string;
 
 static int Priority(char op) {
@@ -64,6 +62,7 @@ class TCalculator {
 
 	void ClearStacks() { operation.Clear(); number.Clear(); }		// очистить стеки 
 	void ToPostfix(void);											// найти postfix
+
 public:
 	// конструктор
 	TCalculator(const string& in);
@@ -77,9 +76,13 @@ public:
 };
 
 TCalculator::TCalculator(const string& in) : operation(in.size()), number(in.size()) {
-	Check(in);
+	bool isCorrect = Check(in);
+
+	if (!isCorrect)
+		throw "TCalculator(string), incorrect input";
 
 	infix = in;
+
 	postfix = "";
 	ToPostfix();
 }
@@ -120,6 +123,8 @@ void TCalculator::ToPostfix(void) {
 			i += n - 1;
 		}
 	}
+
+	bool a = true;
 }
 
 double TCalculator::Calc(void) {

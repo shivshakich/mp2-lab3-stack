@@ -3,9 +3,18 @@
 
 using std::string;
 
+/*TEST(TCalculator, creat_calculator) {
+    TCalculator tc("1+2+3");
+    string a = tc.GetPostfix();
+    string b = tc.GetInfix();
+
+    ASSERT_NO_THROW(int a = 10);
+}*/
+
 TEST(TCalculator, can_create_calculator_with_possitive_size_of_infix)
 {
     string a = "1+2";
+    ASSERT_NO_THROW(TCalculator tc("1+2"));
     ASSERT_NO_THROW(TCalculator tc(a));
 }
 
