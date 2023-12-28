@@ -3,7 +3,7 @@
 
 using std::string;
 
-/*TEST(TCalculator, creat_calculator) {
+/*TEST(TCalculator, bababa_bebebe) {
     TCalculator tc("1+2+3");
     string a = tc.GetPostfix();
     string b = tc.GetInfix();
@@ -30,7 +30,7 @@ TEST(TCalculator, can_get_infix_form_of_calculator)
 TEST(TCalculator, can_get_correct_postfix_form_of_calculator_if_the_number_of_brackets_is_correct)
 {
     string a = "(1+2*3)*(4/5-6)";
-    string b = "123*+45/6-*";
+    string b = "1 2 3 * + 4 5 / 6 - *";
 
     TCalculator calc(a);
     string c = calc.GetPostfix();
@@ -38,16 +38,30 @@ TEST(TCalculator, can_get_correct_postfix_form_of_calculator_if_the_number_of_br
     ASSERT_EQ(b, c);
 }
 
-TEST(TCalculator, can_calculat_if_the_number_of_brackets_is_correct)
+TEST(TCalculator, can_calculate_without_brackets)
+{
+    double result;
+    string a = "1+8";      // == 9
+
+    TCalculator calc(a);
+
+    ASSERT_NO_THROW(result = calc.Calc());
+    ASSERT_EQ(result, 9);
+
+    TCalculator calc1("1 + 8 * 9");         // == 73
+    ASSERT_NO_THROW(result = calc1.Calc());
+    ASSERT_EQ(result, 73.0);
+}
+
+TEST(TCalculator, can_calculate_if_the_number_of_brackets_is_correct)
 {
     string a = "(1+2*3)*(20/5-6)";      // == -14
-
 
     TCalculator calc(a);
 
     double result;
     ASSERT_NO_THROW(result = calc.Calc());
-    ASSERT_EQ(result, -14.0);
+    ASSERT_EQ(calc.Calc(), -14.0);
 }
 
 TEST(TCalculator, cant_calculat_if_the_number_of_brackets_is_incorrect)

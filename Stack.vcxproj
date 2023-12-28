@@ -130,6 +130,10 @@
     <ClInclude Include="TCalculator.h" />
     <ClInclude Include="TStack.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main_file.cpp" />
+    <ClCompile Include="TCalculator.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
