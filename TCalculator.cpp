@@ -1,5 +1,19 @@
 #include "TCalculator.h"
 
+bool TCalculator::Check(const string& str) const {
+	bool res = true;
+
+	try {
+		TCalculator calc(str);
+		calc.Calc();
+	}
+	catch (string exc) {
+		res = false;
+	}
+
+	return res;
+}
+
 int TCalculator::Priority(char op) const {
 	int res;
 
