@@ -1,5 +1,12 @@
 #include "TCalculator.h"
 
+string TCalculator::GetPostfix(void) {
+	if (postfix == "")
+		ToPostfix();
+
+	return postfix;
+}
+
 bool TCalculator::Check(const string& str) const {
 	bool res = true;
 

@@ -23,7 +23,7 @@ public:
 	TCalculator(const string& in);										// конструктор
 
 	string GetInfix() const { return infix; }							// выдать значение infix
-	string GetPostfix() const { return postfix; }						// выдать значение postfix
+	string GetPostfix();												// выдать значение postfix
 
 	double Calc(void);													// вычислить postfix
 };
