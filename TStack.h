@@ -121,7 +121,7 @@ T TStack<T>::Top() const {
 }
 
 template <class T>				// вывод значений стека
-std::ostream& operator>>(std::ostream& os, const TStack<T>& ts) {
+std::ostream& operator<<(std::ostream& os, const TStack<T>& ts) {
 	for (int i = 0; i <= ts.CurrentIndex; ++i)
 		os << ts.pMem[i] << std::endl;
 

@@ -21,5 +21,8 @@
     <ClInclude Include="TCalculator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Stack-on-list.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
