@@ -78,16 +78,16 @@ TEST(TCalculator, cant_convert_invalid_infix_to_prefix) {
     const size_t n = 10;
     std::string* arr = new std::string[n];
 
-    arr[0] = "()";
-    arr[1] = "*2*3 4";
-    arr[2] = "2 * 3  4 * ";
-    arr[3] = "a";
-    arr[4] = "";
-    arr[5] = " ";
-    arr[6] = "-";
-    arr[7] = "Hello world!";
-    arr[8] = "23 * () 100";
-    arr[9] = "23 (*) 100";
+    arr[0]  = "()";
+    arr[1]  = "*2*3 4";
+    arr[2]  = "2 * 3  4 * ";
+    arr[3]  = "a";
+    arr[4]  = "";
+    arr[5]  = " ";
+    arr[6]  = "-";
+    arr[7]  = "Hello world!";
+    arr[8]  = "23 * () 100";
+    arr[9]  = "23 (*) 100";
 
     for (int i = 0; i < n; ++i) {
         //if (i != 8) continue;         // ручная поштучная проверка
