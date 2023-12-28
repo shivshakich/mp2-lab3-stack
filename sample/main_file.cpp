@@ -18,7 +18,7 @@ int main() {
 		TCalculator calcA(a);
 		if (calcA.GetInfix() != a)
 			throw "1.1";
-		if (calcA.GetPostfix() != "12+3+")
+		if (calcA.GetPostfix() != "1 2 + 3 +")
 			throw "1.2";
 		if (calcA.Calc() != resA)
 			throw "1.3";
@@ -28,7 +28,7 @@ int main() {
 		TCalculator calcB(b);
 		if (calcB.GetInfix() != b)
 			throw "2.1";
-		if (calcB.GetPostfix() != "123*+45/6-*")
+		if (calcB.GetPostfix() != "1 2 3 * + 4 5 / 6 - *")
 			throw "2.2";
 		if (calcB.Calc() != resB)
 			throw "2.3";
