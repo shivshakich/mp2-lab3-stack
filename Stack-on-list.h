@@ -13,7 +13,7 @@ struct TNode {
 
 template <class T>
 class TStackOnList {
-	TNode* pFirst;
+	TNode<T>* pFirst;
 public:
 	TStackOnList();									// конструктор по умолчанию
 	TStackOnList(const T& value);					// конструктор преобразования типа
@@ -112,6 +112,8 @@ void TStackOnList<T>::Clear() {
 		current = current->pNext;
 		delete tmp;
 	}
+
+	pFirst = nullptr;
 }
 
 template <class T>
@@ -120,8 +122,10 @@ int TStackOnList<T>::GetCount() const {
 
 	TNode<T>* pCurrent = pFirst;
 
-	while (pCurrent != nullptr)
+	while (pCurrent != nullptr) {
 		++count;
+		pCurrent = pCurrent->pNext;
+	}
 
 	return count;
 }
@@ -139,7 +143,7 @@ T TStackOnList<T>::Pop() {
 	T res;
 
 	if (pFirst->pNext == nullptr) {						// 1 звено
-		res = pFisrt->value;
+		res = pFirst->value;
 		delete pFirst;
 		pFirst = nullptr;
 	}
